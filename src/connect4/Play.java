@@ -1,10 +1,6 @@
 package connect4;
 
-//import java.util.Scanner;
-
 public class Play {
-	
-//	private static final Scanner readCol = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		boolean hasPlayed;
@@ -15,7 +11,6 @@ public class Play {
 		while (true) {
 			
 			do {
-//			System.out.print("Red's Turn : ");
 			hasPlayed = game.playRed(getColumnFromMouseClick());
 			}
 			while(!hasPlayed);
@@ -25,13 +20,12 @@ public class Play {
 			if (game.checkWinRed()) {
 				
 				
-//				System.out.println("Red has won");
+
 				break;
 			}
 			
 			// Play Yellow
 			do {
-//			System.out.println("Yellow's Turn : ");
 			hasPlayed = game.playYellow((int)(Math.random() * 7));
 			}
 			while(!hasPlayed);
@@ -39,7 +33,6 @@ public class Play {
 			game.displayGUI();
 			
 			if (game.checkWinYellow()) {
-//				System.out.println("Yellow has won");
 				break;
 			}
 		}
