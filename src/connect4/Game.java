@@ -10,7 +10,7 @@ public class Game {
 	}
 	
 	private Box[][] board; // Declares Game bard
-	
+	private int wonCoordinates[][] = new int[2][2];
 	private int[] nextBoxes; // Array of indices of next boxes that can be filled in every column
 	
 	private void initialiseNextBoxes(int n) {
