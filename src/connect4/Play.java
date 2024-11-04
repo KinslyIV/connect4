@@ -18,8 +18,6 @@ public class Play {
 			game.displayGUI();
 			
 			if (game.checkWinRed()) {
-				
-				
 
 				break;
 			}
