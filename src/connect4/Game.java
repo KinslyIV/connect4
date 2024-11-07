@@ -13,6 +13,7 @@ public class Game {
 	private int wonCoordinates[][] = new int[2][2];
 	private int[] nextBoxes; // Array of indices of next boxes that can be filled in every column
 	
+	// Initialises the nextBoxes array to the last row of the board
 	private void initialiseNextBoxes(int n) {
 		
 		this.nextBoxes = new int[n];
@@ -39,8 +40,9 @@ public class Game {
 		
 	// Creates a Game board of default size 6x7
 	public Game() {
-			
-			this(6, 7);
+		this(6, 7);
+		StdDraw.enableDoubleBuffering();
+
 		}
 	
 	
@@ -85,6 +87,7 @@ public class Game {
 			
 	}
 	
+	// Checks if a move is valid
 	private boolean isValidMove(int col) {
 		if (col < 0 || col >= this.board[0].length)
 			// out of bound error
@@ -96,6 +99,10 @@ public class Game {
 		}
 		
 	}
+
+	// Draw line between two 
+	//TODO: Implement this function
+
 	
 	// Checks if yellow has won
 	public boolean checkWinYellow() {
@@ -107,12 +114,14 @@ public class Game {
 		return this.checkWin(Box.RED);
 	}
 	
+	// Checks if a player has won
 	private boolean checkWin(Box player) {
 		
 		return this.checkAllRow(player) || this.checkAllCol(player) || 
 				this.checkAllDiagLeft(player) || this.checkAllDiagRight(player);
 	}
 	
+	// Checks if a player has aligned 4 consecutive boxes on any column
 	private boolean checkAllCol(Box player) {
 		for (int i=0; i<this.board[0].length; i++) {
 			if (this.checkCol(i, player))
@@ -122,6 +131,7 @@ public class Game {
 		return false;
 	}
 	
+	// Checks if a player has aligned 4 consecutive boxes on any row
 	private boolean checkAllRow(Box player) {
 		for (int i=0; i<this.board.length; i++) {
 			if (this.checkRow(i, player))
@@ -161,6 +171,7 @@ public class Game {
 			return false;
 	}
 	
+	// Checks if a player has aligned 4 consecutive boxes on any diagonal
 	private boolean checkAllDiagRight(Box player) {
 		for (int i=0, j=1; j >= 1 && j < 4; j++) {
 			if (this.checkDiagRight(i, j, player))
@@ -175,6 +186,7 @@ public class Game {
 		return false;
 	}
 	
+	// Checks if a player has aligned 4 consecutive boxes on any diagonal
 	private boolean checkAllDiagLeft(Box player) {
 		for (int i=5, j=1; j >= 1 && j < 4; j++) {
 			if (this.checkDiagLeft(i, j, player))
@@ -189,6 +201,7 @@ public class Game {
 		return false;
 	}
 	
+	// Checks if a player has aligned 4 consecutive boxes on a given diagonal
 	private boolean checkDiagRight(int row, int col, Box player) {
 		int count = 0;
 		for (int i=row, j=col; i<this.board.length && j < this.board[row].length && count < 4; i++, j++) {
@@ -203,6 +216,7 @@ public class Game {
 			return false;
 	}
 	
+	// Checks if a player has aligned 4 consecutive boxes on a given diagonal
 	private boolean checkDiagLeft(int row, int col, Box player) {
 		int count = 0;
 		for (int i=row, j=col; i >= 0 && j < this.board[row].length && count < 4; i--, j++) {
@@ -217,6 +231,7 @@ public class Game {
 			return false;
 	}
 	
+	// Displays the Game board on console
 	public void display() {
 
 		for (int i=0; i < this.board.length; i++) {
@@ -239,12 +254,9 @@ public class Game {
 			System.out.println("\n");
 		}	
 		
-//		for (int col: this.nextBoxes)
-//			System.out.print("  "+col+"  |");
-//		System.out.println("\n");
 	}
 
-	
+	// Displays the Game board on GUI
 	public void displayGUI() {
 		
 		int COLUMNS = this.board[0].length;
@@ -271,8 +283,8 @@ public class Game {
                 }
                 StdDraw.filledCircle(j, ROWS - 1 - i, RADIUS);
             }
-        }
+		}
         
-        StdDraw.show(20);
+        StdDraw.show();
 	}
 }
