@@ -9,11 +9,27 @@ public class Game {
 		YELLOW;
 	}
 	
-	private Box Winner;
+	private Box Winner = Box.EMPTY;
 	private Box[][] board; // Declares Game bard
 	private int winningSequence[][] = new int[4][2];
 	private int[] nextBoxes; // Array of indices of next boxes that can be filled in every column
 	
+
+	// Creates a Game board of default size 6x7
+	public Game() {
+		this(6, 7);
+		StdDraw.enableDoubleBuffering();
+
+		}
+
+	// Constructor to specify size of Game board
+	public Game(int m, int n) {
+		
+		this.board = new Box[m][n];
+		this.initialseGameBoard();
+		this.initialiseNextBoxes(n);
+	}
+
 	// Initialises the nextBoxes array to the last row of the board
 	private void initialiseNextBoxes(int n) {
 		
@@ -22,13 +38,7 @@ public class Game {
 			this.nextBoxes[i] = this.board.length-1;
 		}
 	}
-	
-	// Decrements 
-	private void changeNextBox(int col) {
-		
-		this.nextBoxes[col] -= 1;
-	}
-	
+
 	// Initialise the game board to empty boxes
 	private void initialseGameBoard() {
 		
@@ -38,49 +48,64 @@ public class Game {
 			}
 		}
 	}
-		
-	// Creates a Game board of default size 6x7
-	public Game() {
-		this(6, 7);
-		StdDraw.enableDoubleBuffering();
-
-		}
 	
-	
-	// Constructor to specify size of Game board
-	public Game(int m, int n) {
+	// Decrements 
+	private void changeNextBox(int col) {
 		
-		this.board = new Box[m][n];
-		this.initialseGameBoard();
-		this.initialiseNextBoxes(n);
+		this.nextBoxes[col] -= 1;
 	}
 	
-	// Play function for red player
-	//returns true if move was made n false otherwise
+	// Makes the move then verifies if the player has won
 	public boolean playRed(int col) {
-		
-		if(isValidMove(col)) {
-			this.play(col, Box.RED);
-			return true;
-		}
-		else
+		Box player = Box.RED;
+		if(!isValidMove(col)){
 			return false;
+		}
+
+		this.makeMove(col, player);
+
+		if(this.checkWin(player)) {
+			this.setWinner(player);
+		}
+
+		return true;
 	}
-	
-	// Play function for yellow player 
-	//returns true if move was made n false otherwise
+
+	// Makes the move then verifies if the player has won
 	public boolean playYellow(int col) {
-		
-		if(isValidMove(col)) {
-			this.play(col, Box.YELLOW);
-			return true;
-		}
-		else
+		Box player = Box.YELLOW;
+		if(!isValidMove(col)){
 			return false;
+		}
+
+		this.makeMove(col, player);
+
+		if(this.checkWin(player)) {
+			this.setWinner(player);
+		}
+
+		return true;
 	}
+
+	// Sets winner
+	private void setWinner(Box player){
+		this.Winner = player;
+	}
+
+	// Get Winner
+	public String getWinner(){
+    switch (this.Winner) {
+        case Box.RED:
+            return "RED";
+        case Box.YELLOW:
+            return "YELLOW";
+        default:
+            return null;
+    }
+}
 	
 	// Play function implementation
-	private void play(int col, Box player) {
+	private void makeMove(int col, Box player) {
 		
 		int row = this.nextBoxes[col];
 		this.board[row][col] = player;
@@ -105,26 +130,6 @@ public class Game {
 	private void drawWinningLine() {
 		StdDraw.setPenColor(StdDraw.WHITE);
 		StdDraw.line(this.winningSequence[0][0], this.winningSequence[0][1], this.winningSequence[3][0], this.winningSequence[3][1]);
-	}
-	
-
-	
-	// Checks if yellow has won
-	public boolean checkWinYellow() {
-		boolean yellowWon  = this.checkWin(Box.YELLOW);
-		if (yellowWon){
-			this.Winner = Box.YELLOW;
-		}
-		return yellowWon;
-	}
-	
-	// Checks if Red has won
-	public boolean checkWinRed() {
-		boolean redWon = this.checkWin(Box.RED);
-		if (redWon){
-			this.Winner = Box.RED;
-		}
-		return redWon;
 	}
 	
 	// Checks if a player has won
@@ -155,6 +160,7 @@ public class Game {
 	}
 	
 	// Checks if a player has aligned 4 consecutive boxes on a given row 
+	// and add the values to the winning sequence
 	private boolean checkRow(int row, Box player) {
 		int count = 0;
 		for (int i=0; i<this.board[row].length && count < 4; i++) {
@@ -174,6 +180,7 @@ public class Game {
 	}
 	
 	// Checks if a player has aligned 4 consecutive boxes on a given column 
+	// and add the values to the winning sequence
 	private boolean checkCol(int col, Box player) {
 		int count = 0;
 		for (int i=0; i<this.board.length && count < 4; i++) {
