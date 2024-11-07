@@ -5,11 +5,14 @@ public class Play {
 	public static void main(String[] args) {
 		boolean hasPlayed;
 		Game game = new Game();
+		StdDraw.enableDoubleBuffering();
 		
 		game.displayGUI();
 		
+		
 		while (true) {
 			
+			// Play User
 			do {
 			hasPlayed = game.playRed(getColumnFromMouseClick());
 			}
@@ -17,8 +20,10 @@ public class Play {
 			
 			game.displayGUI();
 			
+			// Checks if Red won
 			if (game.checkWinRed()) {
-
+				StdDraw.text(3, 6, "Red Wins!");
+				game.displayGUI();
 				break;
 			}
 			
@@ -30,12 +35,16 @@ public class Play {
 			
 			game.displayGUI();
 			
+			//Checks if Yellow won
 			if (game.checkWinYellow()) {
+				StdDraw.text(3.5, 7, "Yellow Wins!");
+				game.displayGUI();
 				break;
 			}
 		}
 	}
 	
+	// Get the column from the mouse click
 	public static int getColumnFromMouseClick() {
       while (!StdDraw.isMousePressed()) {
           // Wait for the mouse to be pressed
