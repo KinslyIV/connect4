@@ -9,8 +9,9 @@ public class Game {
 		YELLOW;
 	}
 	
+	private Box Winner;
 	private Box[][] board; // Declares Game bard
-	private int wonCoordinates[][] = new int[2][2];
+	private int winningSequence[][] = new int[4][2];
 	private int[] nextBoxes; // Array of indices of next boxes that can be filled in every column
 	
 	// Initialises the nextBoxes array to the last row of the board
@@ -100,18 +101,30 @@ public class Game {
 		
 	}
 
-	// Draw line between two 
-	//TODO: Implement this function
+	// Draw line between on the winning sequence
+	private void drawWinningLine() {
+		StdDraw.setPenColor(StdDraw.WHITE);
+		StdDraw.line(this.winningSequence[0][0], this.winningSequence[0][1], this.winningSequence[3][0], this.winningSequence[3][1]);
+	}
+	
 
 	
 	// Checks if yellow has won
 	public boolean checkWinYellow() {
-		return this.checkWin(Box.YELLOW);
+		boolean yellowWon  = this.checkWin(Box.YELLOW);
+		if (yellowWon){
+			this.Winner = Box.YELLOW;
+		}
+		return yellowWon;
 	}
 	
 	// Checks if Red has won
 	public boolean checkWinRed() {
-		return this.checkWin(Box.RED);
+		boolean redWon = this.checkWin(Box.RED);
+		if (redWon){
+			this.Winner = Box.RED;
+		}
+		return redWon;
 	}
 	
 	// Checks if a player has won
@@ -145,10 +158,14 @@ public class Game {
 	private boolean checkRow(int row, Box player) {
 		int count = 0;
 		for (int i=0; i<this.board[row].length && count < 4; i++) {
-			if(this.board[row][i] == player)
+			if(this.board[row][i] == player) {
 				count++;
-			else
+				this.addToWinningSequence(row, i, count);
+			}
+			else{
+				this.resetWinnigSequence();
 				count =0;
+			}	
 		}
 		if (count >= 4)
 			return true;
@@ -160,10 +177,14 @@ public class Game {
 	private boolean checkCol(int col, Box player) {
 		int count = 0;
 		for (int i=0; i<this.board.length && count < 4; i++) {
-			if(this.board[i][col] == player)
+			if(this.board[i][col] == player) {
 				count++;
-			else
+				this.addToWinningSequence(i, col, count);
+			}
+			else{
+				this.resetWinnigSequence();
 				count =0;
+			}	
 		}
 		if (count >= 4)
 			return true;
@@ -205,10 +226,14 @@ public class Game {
 	private boolean checkDiagRight(int row, int col, Box player) {
 		int count = 0;
 		for (int i=row, j=col; i<this.board.length && j < this.board[row].length && count < 4; i++, j++) {
-			if(this.board[i][j] == player)
+			if(this.board[i][j] == player) {
 				count++;
-			else
+				this.addToWinningSequence(i, j, count);
+			}
+			else{
+				this.resetWinnigSequence();
 				count =0;
+			}	
 		}
 		if (count >= 4)
 			return true;
@@ -220,15 +245,33 @@ public class Game {
 	private boolean checkDiagLeft(int row, int col, Box player) {
 		int count = 0;
 		for (int i=row, j=col; i >= 0 && j < this.board[row].length && count < 4; i--, j++) {
-			if(this.board[i][j] == player)
+			if(this.board[i][j] == player) {
 				count++;
-			else
+				this.addToWinningSequence(i, j, count);
+			}
+			else{
+				this.resetWinnigSequence();
 				count =0;
+			}		
 		}
 		if (count >= 4)
 			return true;
 		else
 			return false;
+	}
+
+	// Adds a box's position to the winning sequence
+
+	private void addToWinningSequence(int row, int col, int count) {
+		this.winningSequence[count-1][0] = row;
+		this.winningSequence[count-1][1] = col;
+	}
+
+	private void resetWinnigSequence() {
+		for(int i=0; i < winningSequence.length; i++) {
+			this.winningSequence[i][0] = 0;
+			this.winningSequence[i][1] = 0;
+		}
 	}
 	
 	// Displays the Game board on console
