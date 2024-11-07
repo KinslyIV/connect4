@@ -5,6 +5,7 @@ public class Play {
 	public static void main(String[] args) {
 		boolean hasPlayed;
 		Game game = new Game();
+		String winner;
 		StdDraw.enableDoubleBuffering();
 		
 		game.displayGUI();
@@ -19,11 +20,8 @@ public class Play {
 			while(!hasPlayed);
 			
 			game.displayGUI();
-			
-			// Checks if Red won
-			if (game.checkWinRed()) {
-				StdDraw.text(3, 6, "Red Wins!");
-				game.displayGUI();
+			winner = game.getWinner();
+			if(winner != null){
 				break;
 			}
 			
@@ -35,12 +33,6 @@ public class Play {
 			
 			game.displayGUI();
 			
-			//Checks if Yellow won
-			if (game.checkWinYellow()) {
-				StdDraw.text(3.5, 7, "Yellow Wins!");
-				game.displayGUI();
-				break;
-			}
 		}
 	}
 	
