@@ -282,7 +282,7 @@ public class Game {
 	}
 	
 	// Displays the Game board on console
-	public void display() {
+	public void displayConsole() {
 
 		for (int i=0; i < this.board.length; i++) {
 			for (int j=0; j< this.board[i].length; j++) {
@@ -306,8 +306,19 @@ public class Game {
 		
 	}
 
+	// Displays the Game on GUI
+	public void displayGUI(){
+		if(this.Winner == Box.EMPTY){
+			this.displayBoardGUI();
+		}
+		else {
+			this.drawWinningLine();
+			this.displayBoardGUI();
+		}
+	}
+
 	// Displays the Game board on GUI
-	public void displayGUI() {
+	private void displayBoardGUI() {
 		
 		int COLUMNS = this.board[0].length;
 		int ROWS = this.board.length;
