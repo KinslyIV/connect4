@@ -3,7 +3,6 @@ package connect4;
 public class Play {
 
 	public static void main(String[] args) {
-		boolean hasPlayed;
 		Game game = new Game();
 		String winner;
 		StdDraw.enableDoubleBuffering();
@@ -14,10 +13,9 @@ public class Play {
 		while (true) {
 			
 			// Play User
-			do {
-			hasPlayed = game.playRed(getColumnFromMouseClick());
+			while(!game.playRed(getColumnFromMouseClick())) {
+			// Repeat till valid move
 			}
-			while(!hasPlayed);
 			
 			game.displayGUI();
 			winner = game.getWinner();
@@ -26,12 +24,15 @@ public class Play {
 			}
 			
 			// Play Yellow
-			do {
-			hasPlayed = game.playYellow((int)(Math.random() * 7));
+			while(!game.playYellow((int)(Math.random() * 7))) {
+				// Repeat till vail move
 			}
-			while(!hasPlayed);
 			
 			game.displayGUI();
+			winner = game.getWinner();
+			if(winner != null){
+				break;
+			}
 			
 		}
 	}
