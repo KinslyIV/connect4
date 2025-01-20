@@ -3,32 +3,40 @@ package connect4;
 public class Play {
 
 	public static void main(String[] args) {
+
 		Game game = new Game();
+
+		
 		String winner;
 		StdDraw.enableDoubleBuffering();
 		
 		game.displayGUI();
+		StdDraw.show();
 		
 		
 		while (true) {
-			
 			// Play User
+			
 			while(!game.playRed(getColumnFromMouseClick())) {
 			// Repeat till valid move
 			}
-			
+
 			game.displayGUI();
+			StdDraw.show();
+
 			winner = game.getWinner();
 			if(winner != null){
 				break;
 			}
-			
+
 			// Play Yellow
-			while(!game.playYellow((int)(Math.random() * 7))) {
+			while(!game.playYellow(getColumnFromMouseClick())) {
 				// Repeat till vail move
 			}
-			
+
 			game.displayGUI();
+			StdDraw.show();
+			
 			winner = game.getWinner();
 			if(winner != null){
 				break;
@@ -39,7 +47,7 @@ public class Play {
 	
 	// Get the column from the mouse click
 	public static int getColumnFromMouseClick() {
-      while (!StdDraw.isMousePressed()) {
+      	while (!StdDraw.isMousePressed()) {
           // Wait for the mouse to be pressed
       }
       
