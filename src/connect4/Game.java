@@ -182,7 +182,12 @@ public class Game {
 	private boolean checkAllDiagRight(Box player) {
 		for (int row = 0; row < this.ROWS - 3; row++) {
 			for (int col = 0; col < this.COLUMNS - 3; col++) {
-				if(checkDiagRight(row, col, player)) return true;
+				if(checkDiagRight(row, col, player)) {
+					for (int i = 0; i < 4; i++) {
+						this.addToWinningSequence(row+i, col+i, i);
+					}
+					return true;
+				}
 			}
 		}
 		
@@ -193,7 +198,12 @@ public class Game {
 	private boolean checkAllDiagLeft(Box player) {
 		for (int row = 0; row < this.ROWS - 3; row++) {
 			for (int col = 3; col < this.COLUMNS; col++) {
-				if(checkDiagLeft(row, col, player)) return true;
+				if(checkDiagLeft(row, col, player)) {
+					for (int i = 0; i < 4; i++) {
+						this.addToWinningSequence(row+i, col-i, i);
+					}
+					return true;
+				}
 			}
 		}
 		
@@ -221,8 +231,8 @@ public class Game {
 	// Adds a box's position to the winning sequence
 
 	private void addToWinningSequence(int row, int col, int count) {
-		this.winningSequence[count-1][0] = row;
-		this.winningSequence[count-1][1] = col;
+		this.winningSequence[count][0] = row;
+		this.winningSequence[count][1] = col;
 	}
 
 	private void resetWinnigSequence() {
